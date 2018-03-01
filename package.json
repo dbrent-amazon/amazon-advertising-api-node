@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Advertising API Client Library",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dbrent-amazon/amazon-advertising-api-node.git"
+  },
   "scripts": {
     "test": "eslint ./index.js"
   },
