@@ -1,5 +1,5 @@
 {
-  "name": "adapi-node",
+  "name": "amazon-advertising-api-node",
   "version": "1.0.0",
   "description": "Advertising API Client Library",
   "main": "index.js",
