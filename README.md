@@ -1,4 +1,4 @@
-Unofficial NodeJS Advertising API client library.
+Unofficial NodeJS Amazon Advertising API client library.
 
 ```javascript
 const _amazonAdvertisingApiNode = require('./amazon-advertising-api-node');
