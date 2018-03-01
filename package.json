@@ -10,7 +10,7 @@
   "scripts": {
     "test": "eslint ./index.js"
   },
-  "author": "",
+  "author": "Brent Douglas",
   "license": "Apache-2.0",
   "dependencies": {
     "querystring": "^0.2.0",
