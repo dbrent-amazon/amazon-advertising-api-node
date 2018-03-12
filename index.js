@@ -32,7 +32,7 @@ module.exports = function AdvertisingApiClient(spec) {
             }
             switch (method) {
             case 'GET':
-                options.qs = qs.stringify(data);
+                options.qs = data;
                 break;
             case 'PUT':
             case 'POST':
@@ -97,12 +97,105 @@ module.exports = function AdvertisingApiClient(spec) {
         setProfileId = id => {
             profileId = id;
         },
+        registerBrand = (spec, callback) => {
+            let { countryCode, brand } = spec;
+            operation({
+                method: 'PUT',
+                iface: 'profiles/registerBrand',
+                data: { countryCode, brand },
+                callback
+            });
+        },
+        registerProfile = (spec, callback) => {
+            let { countryCode } = spec;
+            operation({
+                method: 'PUT',
+                iface: 'profiles/register',
+                data: { countryCode },
+                callback
+            });
+        },
         listProfiles = callback => {
             operation({
                 method: 'GET',
                 iface: 'profiles',
                 callback
             });
+        },
+        getProfile = (spec, callback) => {
+            let { profileId } = spec;
+            operation({
+                method: 'GET',
+                iface: 'profiles/' + profileId,
+                callback
+            });
+        },
+        updateProfiles = (profileList, callback) => {
+            operation({
+                method: 'PUT',
+                iface: 'profiles',
+                data: profileList,
+                callback
+            });
+        },
+        listCampaigns = (spec, callback) => {
+            operation({
+                method: 'GET',
+                iface: 'campaigns',
+                data: spec,
+                callback
+            });
+        },
+        listCampaignsEx = (spec, callback) => {
+            operation({
+                method: 'GET',
+                iface: 'campaigns/extended',
+                data: spec,
+                callback
+            });
+        },
+        getCampaign = (spec, callback) => {
+            let { campaignId } = spec;
+            operation({
+                method: 'GET',
+                iface: 'campaigns/' + campaignId,
+                callback
+            });
+        },
+        getCampaignEx = (spec, callback) => {
+            let { campaignId } = spec;
+            operation({
+                method: 'GET',
+                iface: 'campaigns/extended/' + campaignId,
+                callback
+            });
+        },
+        createCampaigns = (spec, callback) => {
+            operation({
+                method: 'POST',
+                iface: 'campaigns',
+                data: spec,
+                callback
+            });
+        },
+        updateCampaigns = (spec, callback) => {
+            operation({
+                method: 'PUT',
+                iface: 'campaigns',
+                data: spec,
+                callback
+            });
+        },
+        archiveCampaign = (spec, callback) => {
+            let { campaignId } = spec;
+            operation({
+                method: 'DELETE',
+                iface: 'campaigns/' + campaignId,
+                callback
+            });
+        },
+        getReport = (spec, callback) => {
+
         };
     switch (region.toLowerCase()) {
     case 'eu':
@@ -117,7 +210,18 @@ module.exports = function AdvertisingApiClient(spec) {
     return Object.freeze({
         doRefreshToken,
         setProfileId,
-        listProfiles
+        registerBrand,
+        registerProfile,
+        listProfiles,
+        getProfile,
+        updateProfiles,
+        listCampaigns,
+        listCampaignsEx,
+        getCampaign,
+        getCampaignEx,
+        createCampaigns,
+        updateCampaigns,
+        archiveCampaign
     });
 };
 
