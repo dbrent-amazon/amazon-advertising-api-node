@@ -1,7 +1,7 @@
 
 module.exports = function AdvertisingApiClient(spec) {
     'use strict';
-    let { clientId, clientSecret, refreshToken, region, sandbox, profileId } = spec,
+    let { clientId, clientSecret, region, sandbox, profileId } = spec,
         pjson = require('./package.json'),
         appVersion = pjson.version,
         apiVersion = 'v1',
@@ -12,7 +12,7 @@ module.exports = function AdvertisingApiClient(spec) {
         tokenUrl = 'https://api.amazon.com/auth/o2/token',
         userAgent = 'AdvertisingAPI Node Client Library v' + appVersion,
         operation = opSpec => {
-            let { method, iface, data, callback } = opSpec;
+            let { iface , method, data, callback } = opSpec;
             let options = {
                 url: endpointUrl + iface,
                 method: method,
@@ -59,7 +59,8 @@ module.exports = function AdvertisingApiClient(spec) {
                 }
             });
         },
-        doRefreshToken = callback => {
+        getAccessToken = (spec, callback) => {
+            let { refreshToken } = spec;
             refreshToken = decodeURIComponent(refreshToken);
 
             let data = {
@@ -97,105 +98,25 @@ module.exports = function AdvertisingApiClient(spec) {
         setProfileId = id => {
             profileId = id;
         },
-        registerBrand = (spec, callback) => {
-            let { countryCode, brand } = spec;
-            operation({
-                method: 'PUT',
-                iface: 'profiles/registerBrand',
-                data: { countryCode, brand },
-                callback
-            });
+        get = (spec, callback) => {
+            let { iface, data } = spec;
+            let method = 'GET';
+            operation({ iface, method, data, callback });
         },
-        registerProfile = (spec, callback) => {
-            let { countryCode } = spec;
-            operation({
-                method: 'PUT',
-                iface: 'profiles/register',
-                data: { countryCode },
-                callback
-            });
+        put = (spec, callback) => {
+            let { iface, data } = spec;
+            let method = 'PUT';
+            operation({ iface, method, data, callback });
         },
-        listProfiles = callback => {
-            operation({
-                method: 'GET',
-                iface: 'profiles',
-                callback
-            });
+        post = (spec, callback) => {
+            let { iface, data } = spec;
+            let method = 'POST';
+            operation({ iface, method, data, callback });
         },
-        getProfile = (spec, callback) => {
-            let { profileId } = spec;
-            operation({
-                method: 'GET',
-                iface: 'profiles/' + profileId,
-                callback
-            });
-        },
-        updateProfiles = (profileList, callback) => {
-            operation({
-                method: 'PUT',
-                iface: 'profiles',
-                data: profileList,
-                callback
-            });
-        },
-        listCampaigns = (spec, callback) => {
-            operation({
-                method: 'GET',
-                iface: 'campaigns',
-                data: spec,
-                callback
-            });
-        },
-        listCampaignsEx = (spec, callback) => {
-            operation({
-                method: 'GET',
-                iface: 'campaigns/extended',
-                data: spec,
-                callback
-            });
-        },
-        getCampaign = (spec, callback) => {
-            let { campaignId } = spec;
-            operation({
-                method: 'GET',
-                iface: 'campaigns/' + campaignId,
-                callback
-            });
-        },
-        getCampaignEx = (spec, callback) => {
-            let { campaignId } = spec;
-            operation({
-                method: 'GET',
-                iface: 'campaigns/extended/' + campaignId,
-                callback
-            });
-        },
-        createCampaigns = (spec, callback) => {
-            operation({
-                method: 'POST',
-                iface: 'campaigns',
-                data: spec,
-                callback
-            });
-        },
-        updateCampaigns = (spec, callback) => {
-            operation({
-                method: 'PUT',
-                iface: 'campaigns',
-                data: spec,
-                callback
-            });
-        },
-        archiveCampaign = (spec, callback) => {
-            let { campaignId } = spec;
-            operation({
-                method: 'DELETE',
-                iface: 'campaigns/' + campaignId,
-                callback
-            });
-        },
-        getReport = (spec, callback) => {
-
+        del = (spec, callback) => {
+            let { iface, data } = spec;
+            let method = 'DELETE';
+            operation({ iface, method, data, callback });
         };
     switch (region.toLowerCase()) {
     case 'eu':
@@ -208,20 +129,12 @@ module.exports = function AdvertisingApiClient(spec) {
         endpointUrl = 'https://advertising-api-test.amazon.com/' + apiVersion + '/';
     }
     return Object.freeze({
-        doRefreshToken,
+        getAccessToken,
         setProfileId,
-        registerBrand,
-        registerProfile,
-        listProfiles,
-        getProfile,
-        updateProfiles,
-        listCampaigns,
-        listCampaignsEx,
-        getCampaign,
-        getCampaignEx,
-        createCampaigns,
-        updateCampaigns,
-        archiveCampaign
+        get,
+        put,
+        post,
+        del
     });
 };
 
