@@ -11,6 +11,8 @@ let client = _amazonAdvertisingApiNode({
 });
 ```
 
+listProfiles
+
 ```javascript
 client.getAccessToken({
     refreshToken: 'Atzr|Qei...',
@@ -22,6 +24,8 @@ client.getAccessToken({
     });
 });
 ```
+
+createCampaigns
 
 ```javascript
 client.getAccessToken({
